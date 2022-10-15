@@ -58,10 +58,10 @@ const Header = () => {
 
                 <Wrapper>
                     <MessageIcon />
-                    <HeaderMenu />
+                    <HeaderMenu  setOpenDrawer={setOpenDrawer} />
                 </Wrapper>
             </Component>
-            <InfoDrawer open ={ openDrawer} setOpen={setOpenDrawer} />
+            <InfoDrawer open ={ openDrawer} setOpen = {setOpenDrawer} />
         </>
     )
 }

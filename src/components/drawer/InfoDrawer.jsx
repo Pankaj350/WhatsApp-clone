@@ -1,6 +1,11 @@
 
-import {  Drawer,Box, Typography, styled } from "@mui/material";
+import { Drawer, Box, Typography, styled } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
+
+
+// component 
+
+import Profile from "./Profile.jsx";
 
 // css
 
@@ -12,7 +17,6 @@ const Header = styled(Box)`
      & > svg, & > p {
         margin-top: auto;
         padding: 15px;
-        font-size: 20px
         font-weight: 600;
      }
 `;
@@ -20,6 +24,10 @@ const Header = styled(Box)`
 const Component = styled(Box)`
     background: #ededed;
     height: 85%;
+`;
+
+const Text = styled(Typography)`
+    font-Size: 18px;
 `
 
 const drawerStyle = {
@@ -41,16 +49,16 @@ const InfoDrawer = ({ open, setOpen }) => {
         <Drawer
             open={open}
             onClose={handleClose}
-            PaperProps={{sx: drawerStyle}}
-            style= {{zIndex: 1500}}
+            PaperProps={{ sx: drawerStyle }}
+            style={{ zIndex: 1500 }}
         >
-        <Header>
-          <ArrowBack onClick={() => setOpen(false)} />
-          <Typography>Profile</Typography>
-        </Header>
-        <Component>
-
-        </Component>
+            <Header>
+                <ArrowBack onClick={() => setOpen(false)} />
+                <Text>Profile</Text>
+            </Header>
+            <Component>
+                <Profile />
+            </Component>
 
         </Drawer>
 
