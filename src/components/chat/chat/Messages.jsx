@@ -30,9 +30,11 @@ const Messages = ({ person, conversation }) => {
 
     const [value, setValue,] = useState('');
     const [messages, setMessages] = useState([]);
-    const [file ,setFile] = useState();
+    const [file, setFile] = useState();
+    const [image, setImage] = useState('');
+    const [newMessageFlag, setNewMessageFlag] = useState(false);
 
-    const { account } = useContext(AccountContext);
+    const { account} = useContext(AccountContext);
 
     useEffect(() => {
         const getMessageDetails = async () => {
@@ -40,23 +42,38 @@ const Messages = ({ person, conversation }) => {
             setMessages(data);
         }
         conversation._id && getMessageDetails();
-    }, [person._id , conversation._id]);
+    }, [person._id, conversation._id, newMessageFlag]);
 
 
 
     const sendText = async (e) => {
         const code = e.keyCode || e.which;
         if (code === 13) {
-            let message = {
-                senderId: account.sub,
-                receiverId: person.sub,
-                conversationId: conversation._id,
-                type: 'text',
-                text: value
-            };
+            let message = {};
+            if (!file) {
+                message = {
+                    senderId: account.sub,
+                    receiverId: person.sub,
+                    conversationId: conversation._id,
+                    type: 'text',
+                    text: value
+                }
+            } else {
+                message = {
+                    senderId: account.sub,
+                    receiverId: person.sub,
+                    conversationId: conversation._id,
+                    type: 'file',
+                    text: image
+                }
+            }
+
             await newMessage(message);
 
             setValue('');
+            setFile('');
+            setImage('');
+            setNewMessageFlag(prev => !prev);
         }
     }
     return (
@@ -66,7 +83,7 @@ const Messages = ({ person, conversation }) => {
                 {
                     messages && messages.map(message => (
                         <Container>
-                        <Message  message= {message}/>
+                            <Message message={message} />
                         </Container>
                     ))
                 }
@@ -76,8 +93,9 @@ const Messages = ({ person, conversation }) => {
                 sendText={sendText}
                 setValue={setValue}
                 value={value}
-                file ={file}
-                setFile= {setFile}
+                file={file}
+                setFile={setFile}
+                setImage={setImage}
             />
         </Wrapper>
     )
